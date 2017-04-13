@@ -1,0 +1,118 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/content/public/tags.jsp" %>
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="shortcut icon" href="index/img/icon.ico" />
+		<title>天问大健康服务平台</title>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="/index/css/base.css" />
+		<link rel="stylesheet" type="text/css" href="/index/css/index.css" />
+	</head>
+
+	<body>
+		<div class="index-title">
+			<div class="location clearfix">
+				<div class="location-left">
+					<img src="index/img/logo.png" />
+					<span>深圳</span>
+					<img src="index/img/down.png" />
+				</div>
+				<div class="location-right">
+					<img src="index/img/phone.png" />
+					<a href="tel:4006616669" ><span>客服电话：400-6616669</span></a>
+				</div>
+			</div>
+			<a href="/core/login.toIndexPage.do?openId=${openid}">
+			<p class="title-img">
+				<img src="index/img/person.png" />
+			</p>
+			<p class="title-word">企业员工体检预约</p></a>
+		</div>
+		<div class="index-choose">
+			<ul class="choose clearfix">
+					<a href="${PCPTSERVER}/core/shop.toEntityShopListPage.do?openId=${openid}" ><li>
+					<img src="index/img/findhospital.png" />
+				<p>找医院</p> 
+				</li></a>
+				<a href="${PCPTSERVER}/core/product.toProductListPage.do?openId=${openid}" >		<li>
+					<img src="index/img/findtaocan.png" />
+			<p>找套餐</p>
+				
+				</li></a>
+			</ul>
+			<ul class="choose clearfix">
+				<a href='${PCPTSERVER}/content/product.cardList.do' ><li>
+					<img src="index/img/card.png" />
+					<p>体检卡</p>  
+				</li> </a>
+				<li>
+					<img src="index/img/key.png" />
+					<p>卡密预约</p>
+				</li>
+			</ul>
+		</div>
+		<p class="more">更多产品</p>
+		<div class="index-more">
+			<ul class="more-con clearfix">
+				<a href='${PCPTSERVER}/core/product.toProductListPage.do?cgVariable.categoryidOne=zlntj'>	<li>
+					<img src="index/img/lntj.png" />
+				<p>中老年体检</p>
+				</li></a>
+				<li>
+						<a href='${PCPTSERVER}/core/product.toProductListPage.do?cgVariable.categoryidOne=cgtj'><img src="index/img/cgtj.png" />
+				<p>常规体检</p>
+				</li></a>
+				<a href='${PCPTSERVER}/core/product.toProductListPage.do?cgVariable.categoryidOne=rztj'><li>
+					<img src="index/img/rztj.png" />
+					<p>入职体检</p>
+				</li></a>
+				<a href='${PCPTSERVER}/core/product.toProductListPage.do?cgVariable.categoryidOne=fktj'><li>
+					<img src="index/img/Nxjc (1).png" />
+					<p>妇科体检</p>
+				</li></a>
+			</ul>
+			<ul class="more-con clearfix">
+				<a href='${PCPTSERVER}/core/product.toProductListPage.do?cgVariable.categoryidOne=qstj'>	<li>
+					<img src="index/img/fajc.png" />
+				<p>全身体检</p> 
+				</li> </a>
+					<a href='${PCPTSERVER}/core/product.toProductListPage.do?cgVariable.categoryidOne=zljc'><li>
+					<img src="index/img/fajc.png" />
+					<p>肿瘤检测</p>
+				</li>  </a>
+				<a href='https://h5.youzan.com/v2/tag/7ae4e4dz?reft=1490079381676&spm=f46838890'><li>
+					<img src="index/img/ylqx.png" />
+						<p>医疗器械</p>  
+				</li></a>
+					<a href='https://h5.youzan.com/v2/showcase/component?alias=16fmasbyj&reft=1490079503265&spm=f46838890'><li>
+					<img src="index/img/jkbx.png" />
+				
+						<p>健康保险</p> 
+				</li> </a>
+			</ul>
+			<!-- <ul class="more-con more-con-last clearfix">
+				<li>
+					<img src="index/img/qstj.png" />
+					<p>全身体检</p>
+				</li>
+				<li>
+					<img src="index/img/lntj.png" />
+					<p>老年检查</p>
+				</li>
+				<li>
+					<img src="index/img/zntj.png" />
+					<p>中年体检</p>
+				</li>
+				<li>
+					<img src="index/img/rztj.png" />
+					<p>入职体检</p>
+				</li>
+			</ul> -->
+		</div>
+	</body>
+
+</html>

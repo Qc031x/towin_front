@@ -1,0 +1,224 @@
+package com.sgfm.datacenter.action.login;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.sgfm.base.action.BaseAction;
+import com.sgfm.base.util.AESUtil;
+import com.sgfm.datacenter.SysConstant;
+import com.sgfm.datacenter.exception.AppException;
+import com.sgfm.datacenter.service.login.LoginService;
+import com.sgfm.datacenter.util.CookieUtil;
+import com.sgfm.datacenter.util.JsonResponseResult;
+import com.sgfm.datacenter.util.SysUtils;
+
+import net.sf.json.JSONObject;
+
+@Controller
+@Scope("prototype")
+public class LoginAction extends BaseAction {
+
+	private static final long serialVersionUID = 2978575235806313066L;
+
+	private Log logger = LogFactory.getLog(this.getClass());
+	
+	@Autowired
+	private LoginService loginService;
+	
+	/**
+	 * 企业员工登录 身份证 或手机， 姓名
+	 * 
+	 * @return
+	 */
+	public String doMemberLogin() {
+		JsonResponseResult result = null;
+		HashMap<String, String> parm = new HashMap<String, String>();
+		try {
+			String true_name = super.getRequest().getParameter("true_name");
+			String mobileOrIdcard = super.getRequest().getParameter("mobileOrIdcard");
+			true_name = true_name.replaceAll(" ", "");   
+			mobileOrIdcard = mobileOrIdcard.replaceAll(" ", "");   
+			if(StringUtils.isBlank(true_name)){
+				setJsonResult("姓名不能为空",result);
+				super.jsonResult = JSONObject.fromObject(result).toString();
+				return BaseAction.JSON;
+			}  
+			if(StringUtils.isBlank(mobileOrIdcard)){
+				setJsonResult("必须输入身份证或者手机",result); 
+				super.jsonResult = JSONObject.fromObject(result).toString();
+				return BaseAction.JSON;
+			}
+			 
+			parm.put("true_name",true_name);
+			parm.put("mobileOrIdcard", mobileOrIdcard);
+			parm.put("openid", super.getRequest().getParameter("openid"));
+			HashMap<String,Object> obj=loginService.doMemberLogin(parm);
+			result = JsonResponseResult.createSuccess();
+			result.addData(obj);
+			super.jsonResult = JSONObject.fromObject(result).toString();
+			String remember = super.getRequest().getParameter("remember")==null?"0":super.getRequest().getParameter("remember");
+			if(remember.equals("1")){
+				   true_name   =   java.net.URLEncoder.encode(true_name,   "utf-8");   
+				CookieUtil.addCookie(super.getResponse(), "true_name", true_name, SysConstant.COOKIE_LIFRCYCLE_AMONTH);
+				CookieUtil.addCookie(super.getResponse(), "mobileOrIdcard", mobileOrIdcard, SysConstant.COOKIE_LIFRCYCLE_AMONTH);
+			}else{
+				CookieUtil.delCookie(super.getResponse(), super.getRequest(), mobileOrIdcard);
+			}
+			
+		} catch (final AppException app) {
+			this.logger.error(app);
+			final String msg = this.getText(app.getMessage());
+			result = JsonResponseResult.createFalied(msg);
+			super.jsonResult = JSONObject.fromObject(result).toString();
+		} catch (final Exception e) {
+			this.logger.error(e);
+			final String msg = this.getText("datacenter.action.LoginAction.exception");
+			result = JsonResponseResult.createFalied(msg);
+			super.jsonResult = JSONObject.fromObject(result).toString();
+		}
+		return BaseAction.JSON;
+
+	}
+	public String loginSuccess() {
+		HttpServletRequest request = getRequest();
+		HashMap<String, String> params = new HashMap<String, String>();
+		try {
+			params.put("batchId", request.getParameter("batchId"));
+			params.put("employeeId", getRequest().getParameter("employeeId"));
+			Map<String, Object> info = loginService.getCheckupInfo(params);
+			
+			this.setToSession("batchId", request.getParameter("batchId"));
+			this.setToSession("employeeId", getRequest().getParameter("employeeId"));
+			this.setToSession("wxOpenId",getRequest().getParameter("openid") );
+			logger.info("登录成功后openid="+getRequest().getParameter("openid") );
+			List<Map<String,Object>> list = loginService.checkEmployeeReservation(params);
+			if(list.size()>0){
+				this.setToSession("isReservation", "1");
+				return toAction("twechat","toReservationDetail");
+			}else{
+				this.setToSession("isReservation", "0");
+			}
+			HashMap<String, Object> shopMap=(HashMap<String, Object>) info.get("onlyOneShop");
+			if(!SysUtils.isEmpty(shopMap)){
+				String addree=loginService.getAddressByEsid(shopMap.get("esid").toString());
+				shopMap.put("address", addree);
+				shopMap.put("batchId", request.getParameter("batchId"));
+				shopMap.put("employeeId", getRequest().getParameter("employeeId"));
+				request.setAttribute("shopMap", shopMap);
+			}
+			
+			request.setAttribute("emp", info.get("emp"));
+			request.setAttribute("shop", info.get("shop"));
+		} catch (final AppException app) {
+			this.logger.error(app);
+		} catch (final Exception e) {
+			this.logger.error(e);
+		}
+		return super.toContentView("twechat", "revDetil");
+	}
+	
+	protected void setJsonResult(String tips,JsonResponseResult responseResult){
+	      responseResult = JsonResponseResult.createFalied(tips);
+          super.jsonResult = JSONObject.fromObject(responseResult).toString();
+	}
+	
+	/**
+	 * 天问业务员登录验证
+	 * @return
+	 * @author 康良玉
+	 */
+	public String doTWLogin(){
+		try {
+			String batchId = super.getRequest().getParameter("batchId");
+			String employeeId = super.getRequest().getParameter("employeeId");
+			String timestamp = super.getRequest().getParameter("timestamp");
+			String twUserId = super.getRequest().getParameter("twUserId");
+			
+			if(batchId==null || employeeId==null || timestamp==null || twUserId==null){
+				return super.toWebRootView("indexMain");
+			}
+			
+			//AES解密
+			batchId = AESUtil.decrypt(batchId);
+			employeeId = AESUtil.decrypt(employeeId);
+			timestamp = AESUtil.decrypt(timestamp);
+			twUserId = AESUtil.decrypt(twUserId);
+			
+			long timestampStart = Long.parseLong(timestamp);
+			long timestampEnd = System.currentTimeMillis();
+			
+			/**
+			 * 如果时间超过300秒则失效
+			 */
+			if((timestampEnd-timestampStart)/1000>300){
+				return super.toWebRootView("indexMain");
+			}
+			HashMap<String, String> params = new HashMap<String, String>();
+			
+			params.put("batchId", batchId);
+			params.put("employeeId", employeeId);
+			Map<String, Object> info = loginService.getCheckupInfo(params);
+			
+			List<Map<String,Object>> list = loginService.checkEmployeeReservation(params);
+			if(list.size()>0){
+				this.setToSession("isReservation", "1");
+				return toAction("twechat","toReservation");
+			}else{
+				this.setToSession("isReservation", "0");
+			}
+			HashMap<String, Object> shopMap=(HashMap<String, Object>) info.get("onlyOneShop");
+			if(!SysUtils.isEmpty(shopMap)){
+				String addree=loginService.getAddressByEsid(shopMap.get("esid").toString());
+				shopMap.put("address", addree);
+				shopMap.put("batchId", batchId);
+				shopMap.put("employeeId", getRequest().getParameter("employeeId"));
+				super.getRequest().setAttribute("shopMap", shopMap);
+			}
+			
+			
+			this.setToSession("batchId", batchId);
+			this.setToSession("employeeId", employeeId);
+			this.setToSession("loginType", 2);
+			this.setToSession("twUserId", twUserId);
+			super.getRequest().setAttribute("emp", info.get("emp"));
+			super.getRequest().setAttribute("shop", info.get("shop"));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			this.logger.error(e);
+		}
+	
+		return super.toContentView("twechat", "revDetil");
+		
+		
+	}
+	
+	/**
+	 * 跳转到登录页面
+	 * @return
+	 * @author liuchong
+	 */
+	public String toIndexPage(){
+		try {
+			String openId = super.getRequest().getParameter("openId");
+	
+			super.getRequest().setAttribute("openId", openId);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			this.logger.error(e);
+		}
+	
+		return super.toContentView("twechat", "login");
+	}
+}

@@ -1,0 +1,444 @@
+@charset "utf-8";
+body {
+	min-height: 65em;
+}
+
+.listPageNav {
+	width: 96%;
+	margin: 0 auto;
+	border: 1px solid #027ac8;
+	border-radius: 4px;
+}
+
+.listPageNav li {
+	float: left;
+	color: #027ac8;
+	background: #fff;
+	text-align: center;
+	font-size: 1.6rem;
+	width: 50%;
+	height: 3rem;
+	line-height: 3rem;
+}
+
+.listPageNav li.nav-active {
+	background: #027ac8;
+	color: #fff;
+}
+
+.optional-content {
+	display: none;
+}
+
+.fixed-content p {
+	text-align: center;
+	color: #404040;
+	font-size: 1.4rem;
+	margin: 2% 0;
+}
+
+.fixed-content ul {
+	width: 100%;
+	border: 1px solid #ccc;
+}
+
+.fixed-content ul p {
+	text-align: left;
+	margin: 0;
+	font-size: 1.6rem;
+	margin-bottom: 0.5rem;
+}
+
+.fixed-content ul li {
+	border-bottom: 1px solid #ccc;
+	width: 100%;
+	padding: 0.5rem 0;
+}
+
+.fixed-content ul li:last-child {
+	border-bottom: none;
+}
+
+.fixed-content ul li div.number {
+	width: 18%;
+	text-align: center;
+	float: left;
+	font-size: 2.5rem;
+	color: #404040;
+	line-height: 1.5;
+}
+
+.fixed-content ul li div.content {
+	width: 81%;
+	text-align: center;
+	float: left;
+}
+
+.fixed-content ul li div.title {
+	font-size: 1.5rem;
+	color: #595959;
+}
+
+.fixed-content ul li div.content .introduction {
+	font-size: 1.1rem;
+	color: #737373;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.fixed-content ul li.list-content-click {
+	border: 2px solid #027ac8;
+}
+
+.fixed-content ul li.list-content-click div.number {
+	color: #027ac8;
+}
+
+.fixed-content ul li.list-content-click div.content p.introduction {
+	white-space: normal;
+}
+
+.fixed-content .fixed-money {
+	width: 92.92%;
+	margin: 0 auto;
+}
+
+.fixed-content .fixed-money .fixed-money-title {
+	text-align: center;
+	font-size: 1.6rem;
+	color: #404040;
+	margin: 3.54% 0 2.12% 0;
+}
+
+.fixed-content .fixed-money ul {
+	width: 100%;
+	border: none;
+}
+
+.fixed-content .fixed-money ul li {
+	float: left;
+	border: none;
+	width: 33%;
+}
+
+.fixed-content .fixed-money ul li p {
+	font-size: 1.3rem;
+	text-align: center;
+	line-height: 1.5;
+}
+
+.fixed-content .fixed-money ul li p.money {
+	font-weight: bold;
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+.optional-content .optional-content-title {
+	text-align: center;
+	color: #404040;
+	font-size: 1.4rem;
+	margin: 2% 0;
+}
+
+.optional-content .optional-content-title span {
+	font-weight: bold;
+}
+
+.optional-content ul.optional-bar {
+	width: 96%;
+	margin: 0 auto;
+	border: none;
+	margin-bottom: 0.5rem;
+}
+
+.optional-content ul.optional-bar li {
+	float: left;
+	width: 30%;
+	margin-left:3%;
+	border: 1px solid #cdcdcd;
+	font-size: 1.5rem;
+	color: #737373;
+	text-align: center;
+	border-radius: 4px;
+}
+
+.optional-content ul.optional-bar li:last-child {
+	border-bottom: 1px solid #cdcdcd;
+	margin-left: 3%;
+}
+
+.optional-content ul.optional-bar li.bar-active {
+	color: #027ac8;
+	border-color: #027ac8;
+}
+
+.optional-bar-second div.bar-search {
+	display: block;
+	position: relative;
+	background: #e8e8e8;
+	overflow: hidden;
+	border-radius: 2px;
+	width: 96%;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 1%;
+	margin-bottom: 2%;
+	padding-bottom: 1%;
+}
+
+.optional-bar-second div.bar-search img {
+	width: 1.4rem;
+	height: 1.7rem;
+}
+
+.optional-bar-second div.bar-search input.form-control {
+	width: 45%;
+	border: none;
+	background: #e8e8e8;
+}
+
+.optional-content .optional-bar-second ul li div.money-sale {
+	width: 18%;
+	float: left;
+	text-align: center;
+}
+
+.optional-content .optional-bar-second ul li div.content {
+	width: 64%;
+}
+
+.optional-content .optional-bar-second ul li.list-content div.money-sale {
+	font-size: 1.5rem;
+	font-weight: bold;
+	line-height: 2.5;
+}
+
+.optional-content ul {
+	width: 100%;
+	border: 1px solid #ccc;
+}
+
+.optional-content .optional-bar-second ul.myPagination {
+	border: none;
+	text-align: center;
+	padding-left: 1rem;
+}
+
+.optional-content .optional-bar-second ul.myPagination li {
+	float: left;
+	color: #ccc;
+	text-align: center;
+	margin-left: 1rem;
+	width: 2rem;
+	padding: 0.3rem 0;
+	border-bottom: none;
+}
+
+.optional-content .optional-bar-second ul.myPagination li:after {
+	content: "";
+	overflow: hidden;
+}
+
+.optional-content .optional-bar-second ul.myPagination li a {
+	color: #ccc;
+}
+
+.optional-content .optional-bar-second ul.myPagination li.pagination-active a {
+	color: #027ac8;
+	border-color: #027ac8;
+	background: #fff;
+}
+
+.optional-content ul p {
+	text-align: left;
+	margin: 0;
+	font-size: 1.6rem;
+	margin-bottom: 0.5rem;
+}
+
+.optional-content ul li {
+	border-bottom: 1px solid #ccc;
+	width: 100%;
+	padding: 0.5rem 0;
+}
+
+.optional-content ul li:last-child {
+	border-bottom: none;
+}
+
+.optional-content ul li div.number {
+	width: 18%;
+	text-align: center;
+	float: left;
+	font-size: 2.5rem;
+	color: #404040;
+	line-height: 1.5;
+}
+
+.optional-content ul li div.content {
+	width: 81%;
+	text-align: center;
+	float: left;
+}
+
+.optional-content ul li div.title {
+	font-size: 1.5rem;
+	color: #595959;
+}
+
+.optional-content ul li div.content .introduction {
+	font-size: 1.1rem;
+	color: #737373;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.optional-content ul li.list-content-click {
+	border: 2px solid #027ac8;
+}
+.optional-content ul li.list-content-click-nochoose{
+	border: 2px solid #999;
+}
+.optional-content ul li.list-content-click div.number {
+	color: #027ac8;
+}
+
+.optional-content ul li.list-content-click-nochoose div.content p.introduction {
+	white-space: normal;
+}
+.optional-content ul li.list-content-click div.content p.introduction {
+	white-space: normal;
+}
+
+.optional-content .project ul {
+	width: 96%;
+	margin: 0 auto;
+	border: none;
+}
+
+.optional-content .project ul li {
+	float: left;
+	width: 22%;
+	margin-right: 2.66%;
+	margin-bottom: 2.66%;
+	text-align: center;
+	border: 1px solid #ccc;
+	font-size: 1.1rem;
+	border-radius: 4px;
+}
+
+.optional-content .project ul li.click {
+	border-color: #027ac8;
+	color: #027ac8;
+}
+
+.optional-content .project .project-content {
+	border: 1px solid #999;
+	margin: 0.54% 0;
+	border-radius: 4px;
+	display: none;
+}
+
+.optional-content .project .project-content .project-content-title {
+	text-align: center;
+	font-size: 1.5rem;
+	color: #404040;
+}
+
+.optional-content .project .project-content .project-content-title span {
+	color: #027ac8;
+}
+
+.optional-content .project .project-content .project-int {
+	font-size: 1.4rem;
+	color: #404040;
+	text-align: left;
+	margin-top: 1.07%;
+	margin-left: 1.07%;
+}
+
+.optional-content .project .project-content .project-int span {
+	font-size: 1.2rem;
+	color: #737373;
+}
+
+.optional-content .optional-money {
+	width: 92.92%;
+	margin: 0 auto;
+}
+
+.optional-content .optional-money .optional-money-title {
+	text-align: center;
+	font-size: 1.6rem;
+	color: #404040;
+	margin: 1.54% 0 2.12% 0;
+}
+
+.optional-content .optional-money .optional-money-title:first-child {
+	margin-bottom: 0;
+}
+
+.optional-content .optional-money ul {
+	width: 100%;
+	border: none;
+}
+
+.optional-content .optional-money ul li {
+	float: left;
+	border: none;
+	width: 33%;
+}
+
+.optional-content .optional-money ul li p {
+	font-size: 1.3rem;
+	text-align: center;
+	line-height: 1.5;
+}
+
+.optional-content .optional-money ul li p.money {
+	font-weight: bold;
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+.list-btn {
+	width: 92.92%;
+	margin: 0 auto;
+	margin-top: 2.12%;
+	min-height: 10em;
+}
+
+.list-btn .btn {
+	height: 4.35%;
+	font-size: 1.6rem;
+	color: #fff;
+	background: #027ac8;
+	text-align: center;
+}
+
+.gary {
+	height: 0.5rem;
+	background: #E8E8E8;
+	width: 100%;
+}
+.optional-content .optional-bar-second ul.selected{
+	border-radius: 2px;
+	width: 65%;
+	margin: 0 auto;
+}
+.optional-content .optional-bar-second ul.selected li{
+	border-bottom: 1px solid #ccc;
+	width: 100%;
+	font-size: 1.5rem;
+	text-align: center;
+	color: #404040;
+}
+.optional-content .optional-bar-second ul.selected li span{
+	font-weight: bold;
+	font-size: 1.6rem;
+}
+.optional-content .optional-bar-second ul.selected li:last-child{
+	border-bottom: none;
+}

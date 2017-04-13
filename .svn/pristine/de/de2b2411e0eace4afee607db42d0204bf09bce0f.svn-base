@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CommonMap">
+	
+	<select id="getTodayMsgCount" resultClass="java.lang.Integer">
+		SELECT COUNT(1) FROM t_user_msgrecord WHERE INSTR(create_date, #date#) > 0
+	</select>
+</sqlMap>

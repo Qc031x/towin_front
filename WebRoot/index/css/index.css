@@ -1,0 +1,141 @@
+@charset "utf-8";
+.index-title {
+	border-bottom: 1px solid #e8e8e8;
+	padding-bottom: 3.5rem;
+}
+
+.index-title .location {
+	border-bottom: 1px solid #e8e8e8;
+	padding: 1rem 0;
+}
+
+.index-title .location .location-left {
+	float: left;
+	margin-left: 1.56%;
+	margin-top:0.2rem;
+}
+
+.index-title .location .location-left img:first-child {
+	margin: 0 1.56%;
+	width: 44%;
+	float: left;
+}
+
+.index-title .location .location-left img:last-child {
+	width: 8%;
+	margin-left: 2%;
+	margin-top: 3%;
+}
+
+.index-title .location .location-left span {
+	font-size: 1.3rem;
+	color: #666;
+	display: block;
+	float: left;
+	line-height: 1.6;
+	padding: 0 0.2rem;
+}
+
+.index-title .location .location-right {
+	float: right;
+}
+
+.index-title .location .location-right span {
+	color: #666;
+	font-size: 1.3rem;
+}
+
+.index-title .location .location-right img {
+	width: 8%;
+	vertical-align:bottom;
+}
+
+.index-title .title-img {
+	width: 100%;
+	height: auto;
+}
+
+.index-title .title-img img {
+	display: block;
+	width: 33%;
+	height: auto;
+	margin: 0 auto;
+	padding-top: 3.5rem;
+}
+
+.index-title .title-word {
+	font-size: 1.5rem;
+	color: #666;
+	text-align: center;
+	margin-top: 3%;
+}
+
+.index-choose ul {
+	width: 100%;
+}
+
+.index-choose ul li {
+	float: left;
+	width: 50%;
+	padding: 1.3rem 0;
+	border-bottom: 1px solid #e8e8e8;
+}
+
+.index-choose ul.choose a:last-child li {
+	border-right: 1px solid #fff;
+}
+
+.index-choose ul li img {
+	display: block;
+	width: 30%;
+	margin: 0 auto;
+}
+
+.index-choose ul li p {
+	text-align: center;
+	font-size: 1.4rem;
+	color: #666;
+}
+
+.more {
+	text-align: center;
+	font-size: 1.4rem;
+	border-bottom: 1px solid #e8e8e8;
+	line-height: 2;
+	color:#666;
+}
+
+.more-con {
+	width: 100%;
+}
+
+.more-con li {
+	float: left;
+	width: 25%;
+	border-bottom: 1px solid #e8e8e8;
+	border-right: 1px solid #E8E8E8;
+	padding: 1.5rem 0;
+}
+
+.more-con li:last-child {
+	border-right: 1px solid #fff;
+}
+
+.more-con li img {
+	display: block;
+	width: 35%;
+	margin: 0 auto;
+	padding-top:0.2rem;
+}
+
+.more-con li p {
+	text-align: center;
+	font-size: 1.2rem;
+	color: #666;
+	padding-top:0.4rem;
+}
+
+
+/* .more-con-last li {
+	border-bottom: 0;
+} */

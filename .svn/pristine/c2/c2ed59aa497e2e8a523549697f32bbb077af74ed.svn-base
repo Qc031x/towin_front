@@ -1,0 +1,31 @@
+package com.sgfm.datacenter.dao;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import com.sgfm.base.dao.BaseDao;
+import com.sgfm.datacenter.entity.TAutoStrategy;
+import com.sgfm.datacenter.entity.THolidayStrategy;
+import com.sgfm.datacenter.entity.TPlaydayStrategy;
+import com.sgfm.datacenter.entity.TSigndayStrategy;
+
+@SuppressWarnings("unchecked")
+@Repository
+public class PCUserDao extends BaseDao {
+	
+	public HashMap<String, Object> findMemInfoByOpenidOrMobile(HashMap<String, Object> param){
+		return (HashMap<String, Object>) super.getSqlMapClientTemplate().queryForObject("PCUserMap.findMemInfoByOpenidOrMobile", param);
+	}
+	
+	public void addMember4WXUser(HashMap<String, Object> param){
+		super.getSqlMapClientTemplate().insert("PCUserMap.addMember4WXUser", param);
+	}
+	
+	public void updMemberInfoByOpenid(HashMap<String, Object> param){
+		super.getSqlMapClientTemplate().update("PCUserMap.updMemberInfoByOpenid", param);
+	}
+	
+}

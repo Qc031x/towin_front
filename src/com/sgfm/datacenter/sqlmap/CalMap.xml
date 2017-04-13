@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CalMap">
+
+	<!-- 得到默认策略 -->
+	<select id="findDefaultPolicy" resultClass="java.util.HashMap">
+		SELECT person_count,hour,minute,second FROM t_auto_strategy WHERE esid = #esid#
+	</select>
+	
+	<!-- 得到休息策略 -->
+	<select id="findRestPolicy" resultClass="java.util.HashMap">
+		SELECT day1,day2 FROM t_playday_strategy WHERE esid = #esid#
+	</select>
+	
+	<!-- 得到假日策略 -->
+	<select id="findHolidayPolicy" resultClass="java.util.HashMap">
+		SELECT * FROM t_holiday_strategy  WHERE esid = #esid#
+	</select>
+	
+	<!-- 得到单日策略 -->
+	<select id="findDayPolicy" resultClass="java.util.HashMap" parameterClass="map">
+		SELECT * FROM t_signday_strategy WHERE esid = #esid# AND day = #day#
+	</select>
+	
+	<select id="getAutoStgByEsidAndDate" resultClass="autoStrategy" >
+	   select * from t_auto_strategy t3  where t3.esid=#esid#
+	</select>
+	
+	 <select id="getReservationByEcd" resultClass="java.util.HashMap" parameterClass="java.util.HashMap" >
+	  select count(t.esid) as count ,t.order_time from t_reservation t   where t.order_status=0 and  t.esid=#esid# and substr(t.order_time,1,7)=#creater_time#
+		 group by  t.order_time   having count(t.esid)>=#count#
+	</select>
+	
+	 <select id="getPlayStgByEsid" resultClass="playdayStrategy" >
+	   select * from t_playday_strategy t3  where t3.esid=#esid#
+	</select>
+	 <select id="getHolidStgByEsid" resultClass="holidayStrategy" parameterClass="java.util.HashMap" >
+	  select * from t_holiday_strategy t   where t.esid=#esid# and  substr(startdate,1,7)=  #startdate#
+	  </select>
+	
+	 <select id="getSignStgByEsid" resultClass="signdayStrategy" parameterClass="java.util.HashMap" >
+	 select * from t_signday_strategy t   where t.esid=#esid# and  substr(day,1,7)=#date#
+	  </select>
+	
+	 <select id="getRevCountByEsid" resultClass="java.lang.Integer" parameterClass="java.util.HashMap" >
+	select count (1) as count from t_reservation t   where t.order_status=0 and  t.esid=#esid#  and substr(order_time,1,10)=#date#
+	  </select>
+	  
+	  
+	  <select id="findSingleDateCount" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+		  	select person_count from t_signday_strategy where esid = #esid# and day = #day#
+		</select>
+	
+	
+	<select id="checkOrderTimePlayDay" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT *FROM t_playday_strategy WHERE esid = #esid# and  (day1 = #week# or day2 = #week#)
+	</select>
+	
+	<select id="checkOrderTimeHoliday" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT * FROM t_holiday_strategy  WHERE esid = #esid# and (startdate <![CDATA[ <= ]]>  #date# AND #date# <![CDATA[ <= ]]> enddate)
+	</select>
+	
+	<select id="checkOrderTimeSignday" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	     SELECT * FROM t_signday_strategy  WHERE esid = #esid# AND day = #date# AND type <![CDATA[ != ]]> 0 
+	</select>
+	
+</sqlMap>

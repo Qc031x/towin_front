@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="EmployeeMap">
+	
+	<select id="getBatchListByEmployeeId" resultClass="java.util.HashMap" parameterClass="java.util.Map">	  
+         select tb.batch_id,tb.name,tce.employee_id from t_company_employee tce 
+        join t_batch tb on tb.batch_id=tce.batch_id and tb.status=2
+        join t_batch_employee tbe on tbe.employee_id=tce.employee_id and tbe.batch_id=tb.batch_id
+        where 
+       		( tce.true_name=#true_name# and tce.mobile=#mobileOrIdcard#) or (tce.true_name=#true_name# and tce.idcard=#mobileOrIdcard#)
+        and tce.status=1
+	</select>	
+
+	<select id="getEmployeeInfo" resultClass="java.util.HashMap" parameterClass="java.util.Map">
+		SELECT a.employee_id "employeeId", a.sex "sex", a.marriage "marriage", a.batch_id "batchId", 
+		a.role_id "roleId", c.name "name", a.true_name "rname", SUBSTR(b.start_time, 0, 4) "checkup_year",
+		(SUBSTR(b.start_time, 0, 4) || '年'|| SUBSTR(b.start_time,INSTR(b.start_time,'-',1)+1, 2) || '月' 
+  			|| SUBSTR(b.start_time,INSTR(b.start_time,'-', 1, 2)+1, 2) || '日' ) "start_time", 
+		(SUBSTR(b.end_time,0, 4) || '年'|| 
+  		 SUBSTR(b.end_time,INSTR(b.end_time,'-',1)+1, 2) || '月' ||
+		 SUBSTR(b.end_time,INSTR(b.end_time,'-', 1, 2)+1, 2) || '日' ) "end_time", d.city "city",
+		 (
+		 	SELECT max(tbr.role_limit) from t_batch_role tbr
+			 WHERE tbr.batch_id = #batchId# and tbr.batch_id=d.batch_id and tbr.role_id=a.role_id and tbr.city=d.city and p_sex=(
+			case when a.sex=1 and a.marriage =0 then 4 when a.sex=1 and a.marriage=1 then 2 else 1 end)
+		 ) "role_Limit",
+		 (
+		 	SELECT max(tbr.role_limit) from T_DIY_BATCH_ROLE tbr
+			 WHERE tbr.batch_id = #batchId# and tbr.batch_id=d.batch_id and tbr.role_id=a.role_id and tbr.city=d.city and p_sex=(
+			case when a.sex=1 and a.marriage =0 then 4 when a.sex=1 and a.marriage=1 then 2 else 1 end)
+		 ) "role_Limit2"
+		FROM t_company_employee a JOIN t_twsign_company c ON a.company_id = c.company_id
+		JOIN t_batch b ON a.batch_id = b.batch_id JOIN t_batch_employee d ON a.employee_id = d.employee_id
+		WHERE a.employee_id = #employeeId#
+	</select>
+	
+	<select id="getCheckupBatchInfo" resultClass="java.util.LinkedHashMap" parameterClass="java.util.Map">
+		(SELECT a.esid "esid", a.e_name "ename" FROM t_batch_role a
+		WHERE a.role_id = #roleId# AND a.batch_id = #batchId# AND a.city = #city#
+		and a.p_sex = (
+			select (case when tce.sex=1 and tce.marriage =0 then 4 when tce.sex=1 and tce.marriage=1 then 2 else 1 end) as sexs
+    		from t_company_employee tce where tce.employee_id = #employeeId# and   batch_id=#batchId#
+    	)
+		) UNION
+		(SELECT a.esid "esid", a.e_name "ename" FROM t_diy_batch_role a
+		WHERE a.role_id = #roleId# AND a.batch_id = #batchId# AND a.city = #city#
+		and a.p_sex = 
+			(
+			select (case when tce.sex=1 and tce.marriage =0 then 4 when tce.sex=1 and tce.marriage=1 then 2 else 1 end) as sexs
+    		from t_company_employee tce where tce.employee_id = #employeeId# and   batch_id=#batchId#)
+		)
+	</select>
+	
+	<select id="checkEmployeeReservation" resultClass="java.util.LinkedHashMap" parameterClass="java.util.HashMap">
+	    SELECT * FROM t_reservation tr 
+	    WHERE tr.batch_id = #batchId# AND tr.empoyee_id = #employeeId# 
+	    AND (tr.order_status = 0 OR tr.order_status = 1 OR tr.order_status = 3)
+	</select>
+	<select id="getAddressByEsid" resultClass="java.lang.String" parameterClass="java.lang.String">
+	    SELECT (select title from T_AREA where th.province=id) || 
+			 (select title from T_AREA where th.city=id) ||
+			 (select title from T_AREA where th.area=id) ||
+			 (case when th.address is null then '' else th.address end ) as address
+ 			from T_HOSPITAL_ENTITY th where esid=#esid#
+	</select>
+</sqlMap>
+   
+

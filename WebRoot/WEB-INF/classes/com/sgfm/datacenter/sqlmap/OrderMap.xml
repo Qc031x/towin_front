@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="OrderMap">
+
+	<resultMap class="temployeeOrder" id="order"> 
+		<result property="oid" column="OID" />
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="orderPay" column="ORDER_PAY" nullValue="0"/>
+		<result property="payStatus" column="PAY_STATUS" nullValue="0"/>
+		<result property="payType" column="PAY_TYPE"/>
+		<result property="payUser" column="PAY_USER"/>
+		<result property="totalPay" column="TOTAL_PAY" nullValue="0"/>
+		<result property="payTime" column="PAY_TIME"/>
+		<result property="createUser" column="CREATE_USER"/>
+	</resultMap>
+	
+	<!-- 通过订单号获取订单信息 -->
+	<select id="findOrderByOid" resultMap="order">
+		SELECT * FROM t_employee_order WHERE oid = #oid#
+	</select>
+	
+	<!-- 修改订单状态 -->
+	<update id="updateOrder" parameterClass="temployeeOrder">
+		UPDATE t_employee_order SET pay_status = #payStatus#,pay_type = #payType#,pay_user = #payUser#,total_pay = #totalPay#,
+		pay_time = to_char(sysdate,'yyyy-MM-dd HH24:mi:ss') WHERE oid = #oid#
+	</update>
+	
+	<!-- 支付成功页面显示的订单信息 -->
+	<select id="findPaySuccessInfoByOid" resultClass="java.util.HashMap">
+		select tr.yid,tr.oid,tr.pid,teo.pay_time,teo.total_pay,tr.product_type,
+		(select name||DECODE(sex,1,'(男)',2,'(已婚女)',4,'(未婚女)')  from t_custom_product where custom_id = tr.pid) as customName,
+		(select name||DECODE(sex,1,'(男)',2,'(已婚女)',4,'(未婚女)')  from t_product where pid = tr.pid) as productName
+		from t_reservation tr
+		inner join t_employee_order teo on teo.oid = tr.oid
+		where teo.oid = #oid#
+	</select>
+	
+	<!-- 支付成功回调后修改预约单状态 -->
+	<update id="updateReservation" parameterClass="java.lang.String">
+		update t_reservation set order_status=0 where oid=#oid#
+	</update>
+	<select id="getReservationByOid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT * from T_RESERVATION where oid = #oid#
+	</select>
+	
+	<!-- 通过订单号获取订单信息 -->
+	<select id="findMallOrderByOid" resultClass="sorder">
+		SELECT oid, mid, sum_price AS sumPrice, ip, post_date AS postDate, 
+	     f_where AS fWhere, is_valid AS isValid, 
+	    pay_status AS payStatus, order_type AS orderType,
+	    caid, pay_type AS payType, payed_time AS payedTime,
+	    surplus, trade_note AS tradeNote
+		FROM S_ORDER WHERE OID = #oid# ORDER BY OID DESC
+	</select>
+	
+	<!-- 修改订单状态 -->
+	<update id="updateMallOrder" parameterClass="sorder">
+		UPDATE s_order SET pay_status = #payStatus#,pay_type = #payType#,surplus = #surplus#,
+		payed_time = to_char(sysdate,'yyyy-MM-dd HH24:mi:ss') WHERE oid = #oid#
+	</update>
+	<select id="getSReservationByOid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		select sr.*,so.order_type from   S_RESERVATION sr 
+		INNER JOIN S_ORDER_LINE sol on sol.olid=sr.olid
+		INNER JOIN S_ORDER so on so.oid=sol.oid and so.oid=#oid#
+	</select>
+	<select id="getAddressByEsidNoProvince" resultClass="java.lang.String" parameterClass="java.lang.String">
+		SELECT (select title from T_AREA where th.city=id) ||
+		 (select title from T_AREA where th.area=id) ||
+		 (case when th.address is null then '' else th.address end ) as address
+		 from T_HOSPITAL_ENTITY th where esid=#esid#
+	</select>
+	<select id="findOrderCardList" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT so.oid,so.order_type,sol.name,sol.card_number,sol.password,sca.mobile from S_ORDER so
+		LEFT JOIN S_ORDER_LINE sol on sol.oid=so.oid
+		LEFT JOIN S_CONSIGNEE_ADDRESS sca on sca.caid=so.caid
+		 where so.oid=#oid#
+	</select>
+	<select id="getLoginUserByOpenid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT * from T_MEMBER where openid=#openid#
+	</select>
+	<insert id="addMsgrecord" parameterClass="java.util.HashMap">
+		insert into t_user_msgrecord values(
+			SEQ_MSG.nextval,
+			#type#,
+			to_number(#user#),
+			'',
+			'',
+			to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),
+			'',
+			#mobile#
+		)
+	</insert>
+	<select id="findMallOrderInfoForWXByOid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT so.oid,so.sum_price,sol.name,count(sol.oid) buysum from S_ORDER so
+		INNER JOIN S_ORDER_LINE sol on sol.oid=so.oid
+		where so.oid = #oid# GROUP BY so.oid,so.sum_price,sol.name
+	</select>
+</sqlMap>
+   
+

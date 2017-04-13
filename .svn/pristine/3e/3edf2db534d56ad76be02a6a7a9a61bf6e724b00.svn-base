@@ -1,0 +1,28 @@
+@charset "utf-8";
+body{
+	font-family: "微软雅黑";
+	max-width: 640px;
+	margin: auto;
+}
+.appointment-details-cont>.list-details{
+	margin-bottom: 0.7rem;
+}
+.appointment-details-cont>.list-details>span{
+	margin-right: 0.5rem;
+	display: inline-block;
+	vertical-align: middle;
+}
+.appointment-details-cont>.list-details:last-child{
+	margin: 0;
+}
+dd.appointment-details-cont>.list-details>.label-icon{
+	margin: 0;
+	padding: 0.01rem 0.1rem;
+	background: #ff6411;
+	color: #fff;
+	border-radius: 3px;
+}
+
+
+
+

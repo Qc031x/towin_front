@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PCUserMap">
+
+	<select id="findMemInfoByOpenidOrMobile" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT MID,ACCOUNT,PASSWORD,OPENID,MOBILE,IDCARD,M_TYPE,NAME,EMPLOYEE_ID FROM T_MEMBER WHERE 1 = 1 AND OPENID = #openid#
+		<dynamic>
+			<isNotEmpty property="mobile" prepend="OR">
+				MOBILE = #mobile#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+		<!-- 获取有分院的城市  -->
+	<select id="findValidCity" resultClass="java.util.HashMap">
+		SELECT id,SUBSTR(title, 0, length(title)-1 ) AS title,area_code,city_code,parentid FROM t_area 
+		WHERE id IN (SELECT city FROM t_hospital_entity WHERE is_cooperate=1) ORDER BY title ASC
+	</select>
+	
+	<insert id="addMember4WXUser">
+		INSERT INTO T_MEMBER VALUES (
+			SEQ_BASE.NEXTVAL,
+			#account#,
+			#password#,
+			#openid#,
+			#mobile#,
+			#idcard#,
+			#m_type#,
+			#employee_id#,
+			#register_date#,
+			#last_login#,
+			#status#,
+			#name#
+		)
+	</insert>
+	
+	<update id="updMemberInfoByOpenid">
+		UPDATE T_MEMBER 
+		<dynamic prepend="SET">
+			<isNotEmpty property="account" prepend=",">
+				ACCOUNT = #account#
+			</isNotEmpty>
+			<isNotEmpty property="password" prepend=",">
+				PASSWORD = #password#
+			</isNotEmpty>
+			<isNotEmpty property="mobile" prepend=",">
+				MOBILE = #mobile#
+			</isNotEmpty>
+			<isNotEmpty property="idcard" prepend=",">
+				IDCARD = #idcard#
+			</isNotEmpty>
+			<isNotEmpty property="m_type" prepend=",">
+				M_TYPE = #m_type#
+			</isNotEmpty>
+			<isNotEmpty property="employee_id" prepend=",">
+				EMPLOYEE_ID = #employee_id#
+			</isNotEmpty>
+			<isNotEmpty property="last_login" prepend=",">
+				LAST_LOGIN = #last_login#
+			</isNotEmpty>
+			<isNotEmpty property="status" prepend=",">
+				STATUS = #status#
+			</isNotEmpty>
+			<isNotEmpty property="name" prepend=",">
+				NAME = #name#
+			</isNotEmpty>
+		</dynamic>
+		WHERE OPENID = #openid#
+	</update>
+	
+</sqlMap>

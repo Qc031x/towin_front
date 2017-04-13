@@ -1,0 +1,56 @@
+@charset "utf-8";
+body{
+	background: #e8e8e8;
+}
+.paymentinfo {
+	background: #fff;
+	margin-top: 1rem;
+}
+
+.paymentinfo p {
+	text-indent: 2rem;
+	font-size: 1.6rem;
+	color: #404040;
+}
+.paymentinfo .paymentinfo-sm{
+	color: #737373;
+	font-size: 1.4rem;
+}
+.paymentqie {
+	background: #fff;
+	margin-top: 3%;
+}
+
+.paymentqie ul li {
+	float: left;
+	margin-left: 3%;
+	width: 90%;
+}
+
+.paymentqie ul li img {
+	display: block;
+	float: left;
+	width: 3rem;
+	height: 3rem;
+}
+
+.paymentqie ul li .wechatpay {
+	float: left;
+	width: 75%;
+}
+
+.paymentqie ul li .wechatpay ul li {
+	float: none;
+	margin-left: 1rem;
+}
+
+.paymentqie ul li .wechatpay ul li:first-child {
+	font-weight: bold;
+	font-size: 1.6rem;
+}
+
+.radio {
+	margin: 0;
+	float: right;
+	margin-top: 0.9rem;
+}

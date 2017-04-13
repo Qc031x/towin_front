@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="EmployeeMap">
+	
+	<select id="getBatchListByEmployeeId" resultClass="java.util.HashMap" parameterClass="java.util.Map">	
+		select  b.batch_id,b.name from t_batch b where b.batch_id in
+		(select batch_id from t_company_employee a where a.true_name=#true_name# and   
+		(a.mobile=#mobileOrIdcard# or a.idcard=#mobileOrIdcard#)) and b.status=2 group by b.batch_id, b.name
+	</select>	
+	</sqlMap>
+   
+

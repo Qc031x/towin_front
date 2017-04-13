@@ -1,0 +1,5 @@
+
+core.driverClassName=oracle.jdbc.driver.OracleDriver
+core.url=jdbc\:oracle\:thin\:@192.168.10.188\:1521\:TWDB 
+core.username=tianwen
+core.password=tianwen

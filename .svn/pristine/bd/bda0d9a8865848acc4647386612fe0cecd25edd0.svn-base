@@ -1,0 +1,76 @@
+package com.sgfm.datacenter.action;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.sgfm.base.action.BaseAction;
+import com.sgfm.base.util.StringUtil;
+import com.sgfm.datacenter.SysConstant;
+import com.sgfm.datacenter.entity.TArea;
+import com.sgfm.datacenter.service.PCUser.UserService;
+import com.sgfm.datacenter.util.CookieUtil;
+import com.sgfm.datacenter.util.SysUtils;
+import com.sgfm.datacenter.util.Ip.IPSeeker;
+
+import net.sf.json.JSONObject;
+
+@Controller
+@Scope("prototype")
+public class IndexAction extends BaseAction {
+	
+	private static final long serialVersionUID = -5393176239119452130L;
+	private Log logger = LogFactory.getLog(IndexAction.class);
+	
+	private TArea area = new TArea();
+	
+	@Autowired
+	private UserService userService;
+
+	public void indexPage2(HttpServletRequest request,HttpServletResponse response){
+		   
+    	try {
+    		logger.info("微信返回code:------" + request.getParameter("code"));
+    		
+    		if(!StringUtil.isBlank(request.getParameter("code"))/* && !StringUtil.isBlank(super.getFromSession("wxOpenId").toString())*/){
+    			JSONObject data = userService.doGetUserOpenid(request.getParameter("code"));
+    			
+    			logger.info("微信返回用户信息:\n------" + data);
+    			logger.info("微信indexPage2:openid------=" + data.optString("openid"));
+    			request.setAttribute("openid", data.optString("openid"));
+    			
+//    			if(!data.isNullObject()){
+//    				Map<String, Object> param = data;
+//    				userService.doCheckMemberInfo(param);
+//    			}
+    		}
+    		request.getRequestDispatcher("/indexMain.jsp").forward(request,response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		
+		}
+    	//return super.toContentView("porduct", "succ");
+    	
+	}
+	
+	/*
+	 * 设置首页所需数据
+	 * */
+	private void setIndexData(HttpServletRequest request,HttpServletResponse response,String city){
+		 
+		//request.setAttribute("bannerList", CommHashMap.getHashMapIndexBannerList(MemcachedConstant.YY_INDEXBANNER+city));
+		 
+	}
+	
+	 
+}

@@ -1,0 +1,103 @@
+@charset "utf-8";
+.banner{
+	position: relative;
+}
+.banner .banner-img{
+	width: 100%;
+}
+.banner .local{
+	position: absolute;
+	top: 1rem;
+	right: 2rem;
+	border-radius: 24.5px;
+	background: rgba(0,0,0,.6);
+	color: #fff;
+	padding: 0.3rem 0.6rem;
+}
+.banner .local .local-img{
+	width: 25%;
+	vertical-align: sub;
+}
+.banner .local span{
+	font-size: 1.5rem;
+	margin-left: 0.2rem;
+}
+.inter-btn{
+	width: 95%;
+	margin: 0 auto;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+}
+.inter-btn .btn{
+	background: #027ac8;
+	color: #fff;
+	font-size: 2rem;
+	border-radius: 40px;
+	line-height: 2.5rem;
+	padding-top:0.7rem;
+	padding-bottom: 0.7rem;
+}
+.list{
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+.list ul{
+	width: 100%;
+	max-width: 640px;
+	margin: 0 auto;
+}
+.list ul li{
+	float: left;
+	width: 25%;
+	text-align: center;
+}
+.list ul li img{
+	width: 30%;
+}
+.list ul li p{
+	color: #4c4c4c;
+	font-size: 1.4rem;
+	margin-top: 0.5rem;
+}
+.hot-sell{
+	margin-top: 2rem;
+	margin-bottom: 3rem;
+	
+}
+.hot-sell-p{
+	color: #333;
+	font-size: 1.8rem;
+	border-bottom: 1px solid #e8e8e8;
+	width: 90%;
+	margin: 0 auto;
+	padding-bottom: 0.5rem;
+	padding-top: 0.5rem;
+}
+.hot-sell .hot-sell-list{
+	width: 95%;
+	max-width: 640px;
+	margin: 0 auto;
+}
+.hot-sell .hot-sell-list li{
+	float: left;
+	width: 25%;
+	text-align: center;
+	margin-top: 1.2rem;
+}
+.hot-sell .hot-sell-list li img{
+	width: 50%;
+}
+.hot-sell .hot-sell-list li p{
+	color: #4c4c4c;
+	font-size: 1.3rem;
+	margin-top: 0.5rem;
+}
+.footer{
+	margin-top: 1.5rem;
+	min-height: 6em;
+}
+.footer p{
+	text-align: center;
+	color: #007dca;
+	font-size: 1.6rem;
+}

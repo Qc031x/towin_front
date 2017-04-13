@@ -1,0 +1,43 @@
+@charset "utf-8";
+body {
+	background: #e8e8e8;
+}
+
+.page div {
+	border-bottom: 1px solid #ccc;
+	font-size: 1.6rem;
+	color: #333;
+	padding: 2.3% 0;
+}
+
+.page div:last-child {
+	border-bottom: none;
+}
+
+.page div.hello-time p span {
+	font-weight: bold;
+}
+
+.page div.hello-money p span,
+.page div.hello-add p span,
+.page div.hello-tel p span {
+	color: #027ac8;
+	font-weight: bold;
+}
+
+.hello-btn {
+	width: 93.75%;
+	margin: 0 auto;
+}
+
+.btn {
+	margin-top: 6.25%;
+	height: 7%;
+	color: #fff;
+	background: #027ac8;
+	font-size: 1.8rem;
+}
+
+.btn:hover {
+	color: #fff;
+}

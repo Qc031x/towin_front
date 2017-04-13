@@ -1,0 +1,131 @@
+@charset "utf-8";
+.index-logo {
+	width: 100%;
+	height: auto;
+	background: #fff;
+	overflow: hidden;
+}
+
+.index-logo img {
+	display: block;
+	margin: 0 auto;
+	width: 15rem;
+	height: 10rem;
+	margin-top: 5rem;
+	overflow: hidden;
+}
+
+.index-title {
+	/*font-size: 1.6rem;
+	color: #404040;
+	text-align: center;
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+	overflow: hidden;
+	background: #fff;*/
+	width: 80%;
+	height: auto;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.index-title img {
+	display: block;
+	width: 100%;
+	height: 1.3rem;
+	margin: 2.5rem 0;
+}
+
+.index-login {
+	border: 1px solid #b2b2b2;
+	border-radius: 4px;
+	height: 8rem;
+	width: 75%;
+	margin: 0 auto;
+	z-index: 999;
+}
+
+.index-login .index-login-user {
+	border-bottom: 1px solid #b2b2b2;
+	width: 94%;
+	height: 3.9rem;
+	margin: 0 auto;
+	padding: 0.6rem;
+}
+
+.index-login .index-login-user input,
+.index-login .index-login-psd input {
+	width: 80%;
+	height: 2.3rem;
+	border: none;
+}
+
+.index-login .index-login-user img,
+.index-login .index-login-psd img {
+	width: 2.5rem;
+	height: 2.5rem;
+	margin-right: 0.3rem;
+}
+
+.index-login .index-login-psd {
+	width: 94%;
+	height: 3.9rem;
+	margin: 0 auto;
+	padding: 0.6rem;
+}
+
+.index-check {
+	width: 73%;
+	height: 3rem;
+	margin: 0 auto;
+	margin-top: 1.5rem;
+}
+
+.index-check .remember {
+	border: 1px solid #ccc;
+	width: 1.85rem;
+	height: 1.85rem;
+	border-radius: 4px;
+	margin-right: 0.2rem;
+	margin-top: 0.35rem;
+}
+
+.index-check span {
+	font-size: 1.7rem;
+	color: #737373;
+	display: block;
+	float: left;
+}
+
+.check {
+	background: url(../img/check.png)no-repeat center;
+	background-size: 90%;
+	border: none !important;
+}
+
+.index-btn {
+	width: 75%;
+	margin: 0 auto;
+	margin-top: 1.5rem;
+}
+
+.index-btn .btn {
+	color: #fff;
+	background: #027ac8;
+	border-radius: 4px;
+	font-size: 2rem;
+}
+
+.index-footer {
+	width: 100%;
+	margin: 0 auto;
+	background: #fff;
+	height: 6%;
+	margin-top: 28.75%;
+}
+
+.index-footer p {
+	text-align: center;
+	color: #737373;
+	font-size: 1.4rem;
+}

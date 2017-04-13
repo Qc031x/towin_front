@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.2//EN"
+        "http://tuckey.org/res/dtds/urlrewrite3.2.dtd">
+
+<!--
+
+    Configuration file for UrlRewriteFilter
+    http://tuckey.org/urlrewrite/
+
+-->
+<urlrewrite>
+
+    <!--<rule>
+        <note>
+            The rule means that requests to /test/status/ will be redirected to /rewrite-status
+            the url will be rewritten.
+        </note>
+        <from>/test/status/</from>
+        <to type="redirect">%{context-path}/rewrite-status</to>
+    </rule>
+    
+    
+     -->
+  
+     
+      <rule>
+            <from>^/([0-9]+)/p-([0-9]+)</from>
+              <to>/core/product.findProductDetailsByPid.do?cgVariable.pid=$2</to> 
+     </rule>
+     
+     <rule><!-- 点击体检套餐菜单过来 页面 -->
+             <from>^/([0-9]+)/pl</from>
+              <to>/core/product.findAllProductByCityAndCondition.do</to> 
+     </rule>         
+     
+      <rule><!-- 点击top的商品搜索按钮 -->
+             <from>^/([0-9]+)/spl-(.*)-([0-9]+)</from>
+              <to>/core/product.searchProduct.do?cgVariable.condition=$2&amp;cgVariable.currentPage=$3</to> 
+     </rule>
+      <rule><!-- 点击top的分院搜索按钮 -->
+             <from>^/([0-9]+)/sfy-(.*)-([0-9]+)</from>
+              <to>/core/product.searchStore.do?cgVariable.condition=$2&amp;cgVariable.currentPage=$3</to> 
+     </rule>
+      <rule><!-- 点击体检中心菜单 -->
+             <from>^/([0-9]+)/md</from>
+              <to>/core/product.findAllStoreByCityAndCondition.do</to> 
+     </rule>
+     
+      <rule><!-- 点击体检中心的条件，如点击 选择区域 医院等级 排序 -->
+             <from>^/([0-9]+)/smd-(.*)-(.*)-(.*)</from>
+              <to>/core/product.findAllStoreByCityAndCondition.do?cgVariable.countyid=$2&amp;cgVariable.categoryId=$3&amp;cgVariable.paixu=$4</to> 
+     </rule>
+      <rule><!-- 点击一卡通-->
+             <from>^/([0-9]+)/card</from>
+              <to>/core/product.oneCard.do</to> 
+     </rule>
+       <rule><!-- 点击企业体检 -->
+             <from>^/([0-9]+)/sd-([0-9]+)</from>
+              <to>/core/product.findMedicalinstitutionProduct.do?cgVariable.esid=$2</to> 
+     </rule>
+      <rule><!-- 查看新闻详细 -->
+             <from>^/([0-9]+)/nd-([0-9]+)</from>
+              <to> /core/info.findNewInfoDetailByNid.do?newsInfo.nid=$2</to> 
+     </rule>
+     
+    
+     
+      <rule><!-- 点击企业体检 -->
+             <from>^/([0-9]+)/im-([0-9]+)</from>
+              <to>/core/info.showHealthInfo.do?newsType.id=$2</to> 
+     </rule>
+     <rule><!-- 点击体检中心查看详细 -->
+             <from>^/([0-9]+)/ed-([0-9]+)</from>
+              <to>/core/product.findMedicalinstitutionProduct.do?cgVariable.esid=$2</to> 
+     </rule>
+    
+    
+
+     
+     <rule><!-- 点击企业体检菜单过来 页面 -->
+             <from>^/([0-9]+)/er</from>
+              <to>/core/user.findEnterprisePhysicalExa.do</to> 
+     </rule>
+     
+     <!--<rule> 点击企业体检菜单过来 页面
+             <from>^/([0-9]+)/im</from>
+              <to>/core/info.showHealthInfo.do</to> 
+     </rule> -->
+     
+     
+     <!--   
+
+    
+    
+    <rule>
+           <from>^/([0-9]+)</from>
+            
+              <to>/core/index.indexPage2.do?urlrew_cityno=$1</to>
+            
+        
+     </rule>
+    点击体检套餐的查询属性(条件)触发 
+      <rule>
+             <from>^/([0-9]+)/sps-(.*)-(.*)-(.*)-(.*)-(.*)-(.*)-(.*)-(.*)-(.*)</from>
+              <to>/core/product.findAllProductByCityAndCondition.do?cgVariable.paixu=$2&amp;cgVariable.categoryidOne=$3&amp;cgVariable.categoryidTwo=$4&amp;cgVariable.majorProject=$5&amp;cgVariable.countyid=$6&amp;cgVariable.price=$7&amp;cgVariable.startPrice=$8&amp;cgVariable.endPrice=$9</to> 
+     </rule>
+
+    --><!--
+
+    INSTALLATION
+
+        in your web.xml add...
+
+        <filter>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+            <init-param>
+                <param-name>logLevel</param-name>
+                <param-value>WARN</param-value>
+            </init-param>
+        </filter>
+        <filter-mapping>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
+
+     EXAMPLES
+
+     Redirect one url
+        <rule>
+            <from>/some/old/page.html</from>
+            <to type="redirect">/very/new/page.html</to>
+        </rule>
+
+    Redirect a directory
+        <rule>
+            <from>/some/olddir/(.*)</from>
+            <to type="redirect">/very/newdir/$1</to>
+        </rule>
+
+    Clean a url
+        <rule>
+            <from>/products/([0-9]+)</from>
+            <to>/products/index.jsp?product_id=$1</to>
+        </rule>
+    eg, /products/1234 will be passed on to /products/index.jsp?product_id=1234 without the user noticing.
+
+    Browser detection
+        <rule>
+            <condition name="user-agent">Mozilla/[1-4]</condition>
+            <from>/some/page.html</from>
+            <to>/some/page-for-old-browsers.html</to>
+        </rule>
+    eg, will pass the request for /some/page.html on to /some/page-for-old-browsers.html only for older
+    browsers whose user agent srtings match Mozilla/1, Mozilla/2, Mozilla/3 or Mozilla/4.
+
+    Centralised browser detection
+        <rule>
+            <condition name="user-agent">Mozilla/[1-4]</condition>
+            <set type="request" name="browser">moz</set>
+        </rule>
+    eg, all requests will be checked against the condition and if matched
+    request.setAttribute("browser", "moz") will be called.
+
+    -->
+
+</urlrewrite>
+

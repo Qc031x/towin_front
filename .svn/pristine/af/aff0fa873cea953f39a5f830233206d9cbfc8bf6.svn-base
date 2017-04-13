@@ -1,0 +1,126 @@
+package com.sgfm.datacenter.service.login.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sgfm.base.util.StringUtil;
+import com.sgfm.datacenter.dao.EmployeeDao;
+import com.sgfm.datacenter.dao.PCUserDao;
+import com.sgfm.datacenter.service.login.LoginService;
+import com.sgfm.datacenter.util.SysUtils;
+
+@Service
+public class LoginServiceImpl implements LoginService {
+	
+	@Autowired
+	private EmployeeDao employeeDao;
+	@Autowired
+	private PCUserDao userDao;
+	
+	/**
+	 * 企业员工登录
+	 * @return
+	 * @author cliu
+	 */
+	public HashMap<String,Object> doMemberLogin(Map<String,String> reqParm){		
+		HashMap<String,Object> info = new HashMap<String,Object>();		
+		HashMap<String, Object> parm = new HashMap<String, Object>();
+		parm.put("true_name", reqParm.get("true_name"));
+		parm.put("mobileOrIdcard", reqParm.get("mobileOrIdcard"));
+				
+		List<Map<String ,Object>> retlist = employeeDao.getBatchListByEmployeeId(parm);
+		//如果该登录人没有对应的批次，证明他不是企业员工，提示他需要找贵公司HR  确认，是否进入批次
+		if(retlist.size()==0){
+			info.put("batchSum", "0");
+			
+		}
+		//如果该登录人有一个体检批次，则直接进入该批次的预约信息页面
+		/*if(retlist.size()==1){
+			info.put("batchSum", "1");
+			
+		}
+		//如果该登录人有多个批次运行中的批次存在则提示他选择一个批次进入
+		if(retlist.size()>1){
+			info.put("batchSum", retlist.size());
+			info.put("batchInfo", retlist);
+			
+		}*/ else {
+			info.put("batchSum", retlist.size());
+			info.put("batchInfo", retlist);
+			
+			//根据openid或者手机号码查询员工是否之前登录过或在个检注册过
+			//TODO 
+			System.out.println("数据0--------------" + reqParm);
+			HashMap<String, Object> param = new HashMap<String, Object>();
+			param.put("openid", reqParm.get("openid"));
+			//param.put("mobile", StringUtil.isHandset(reqParm.get("mobileOrIdcard")) ? reqParm.get("mobileOrIdcard") : null);
+			HashMap<String, Object> userinfo = userDao.findMemInfoByOpenidOrMobile(param);
+			System.out.println("数据1--------------" + userinfo);
+			if(SysUtils.isEmpty(userinfo)){
+				//不存在首次登录
+				param.put("mobile", StringUtil.isHandset(reqParm.get("mobileOrIdcard")) ? reqParm.get("mobileOrIdcard") : null);
+				param.put("idcard", StringUtil.isHandset(reqParm.get("mobileOrIdcard")) ? null : reqParm.get("mobileOrIdcard"));
+				param.put("account", null);
+				param.put("password", null);
+				param.put("m_type", "2");
+				param.put("employee_id", retlist.get(0).get("EMPLOYEE_ID"));
+				param.put("register_date", SysUtils.getTime());
+				param.put("last_login", SysUtils.getTime());
+				param.put("status", "1");
+				param.put("name", reqParm.get("true_name"));
+				System.out.println("数据2--------------" + param);
+				userDao.addMember4WXUser(param);
+			}else{
+				//覆盖openid
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("openid", reqParm.get("openid"));
+				map.put("true_name", reqParm.get("true_name"));
+				map.put("employee_id", retlist.get(0).get("EMPLOYEE_ID"));
+				map.put("mobile", StringUtil.isHandset(reqParm.get("mobileOrIdcard")) ? reqParm.get("mobileOrIdcard") : null);
+				map.put("idcard", StringUtil.isHandset(reqParm.get("mobileOrIdcard")) ? null : reqParm.get("mobileOrIdcard"));
+				System.out.println("数据3--------------" + map);
+				userDao.updMemberInfoByOpenid(map);
+			}
+		}
+		return info;
+	}
+
+	/**
+	 * 获取登录人的体检信息
+	 */
+	public Map<String, Object> getCheckupInfo(HashMap<String, String> params) {
+		Map<String, Object> info = new HashMap<String, Object>();
+		Map<String, Object> employee = employeeDao.getEmployeeInfo(params);
+		
+		List<Map<String, Object>> checkupInfo = employeeDao.getCheckupBatchInfo(employee);
+		info.put("emp", employee);
+		info.put("shop", checkupInfo);
+		if(checkupInfo.size()<=1){
+			HashMap<String, Object> onlyOneShop=new HashMap<String, Object>();
+			onlyOneShop.put("shopCount", "1");
+			onlyOneShop.put("esid", checkupInfo.get(0).get("esid"));
+			info.put("onlyOneShop", onlyOneShop);
+		}
+		return info;
+	}
+
+	public List<Map<String, Object>> checkEmployeeReservation(HashMap<String, String> param) {
+		return employeeDao.checkEmployeeReservation(param) ;
+	}
+	/**
+	 * 根据esid获取详细地址
+	 * @param param
+	 * @return
+	 * @author 秦光耀
+	 */
+	public String getAddressByEsid(String esid) {
+		return employeeDao.getAddressByEsid(esid);
+	}
+	
+	
+	
+}

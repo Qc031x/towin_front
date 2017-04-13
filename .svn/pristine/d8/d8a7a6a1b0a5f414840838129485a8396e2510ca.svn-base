@@ -1,0 +1,707 @@
+package com.sgfm.datacenter.entity;
+
+import java.math.BigDecimal;
+
+/**
+ * TMember entity. @author MyEclipse Persistence Tools
+ */
+
+public class TMember implements java.io.Serializable {
+
+	// Fields
+
+	private int mid;
+	private String account;
+	private String pwd;
+	private String email;
+	private String name;
+	private int sex;
+	private int province;
+	private String address;
+	private String postcode;
+	private String mobile;
+	private String tel;
+	private String ip;
+	private String postDate;
+	private String lastLoginDate;
+	private double points;
+	private int city;
+	private int loginTimes;
+	private int ader;
+	private int aderFlag;
+	private String aderseason;
+	private String aderpayinfo;
+	private String nickName;
+	private double buyCount;
+	private double mmoney;
+	private double aderMoney;
+	private String birthday;
+	private String qq;
+	private String msn;
+	private int isValid;
+	private String mno;
+	private int county;
+	private String messageValid;
+	private int rzFlag;
+	private int myshopFlag;
+	private String img;
+	private String carbj;
+	private String carnum;
+	private String cartypefather;
+	private String cartypeson;
+	private String cartypedouter;
+	private String mycard;
+	private String cardnum;
+	private String bhwt;
+	private String bhda;
+	private String gslx;
+	private String gsmc;
+	private int meid;
+	private int MType;
+	private String department;
+	private int isMevalid;
+	private int isEmailvalid;
+	private int isMobvalid;
+	private String menumber;
+	private String mailTimes;
+	private int isSendpoinds;
+	private String pv;
+	private String mobile1;
+	private String passwordmailTimes;
+	private String email1;
+	private int drawlotteryTime;
+	private String backpassmsgTime;
+	private int giftparameter;
+	private String source;
+	private String emailTemp;
+	private String foldbackTime;
+	private int isBlacklist;
+	private String blackDescription;
+	private int isMarriage;
+	private int passwordStrength;
+	private int age;
+	private String client;
+	private String cProvince;
+	private String cCity;
+	private String cCounty;
+	private String cAddress;
+
+	// Constructors
+
+	/**
+	 * @return the client
+	 */
+	public String getClient() {
+		return client;
+	}
+
+	/**
+	 * @param client the client to set
+	 */
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	/** default constructor */
+	public TMember() {
+	}
+
+	/** minimal constructor */
+	public TMember(int mid) {
+		this.mid = mid;
+	}
+
+
+	public int getMid() {
+		return this.mid;
+	}
+
+	public void setMid(int mid) {
+		this.mid = mid;
+	}
+
+	public String getAccount() {
+		return this.account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getPwd() {
+		return this.pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getSex() {
+		return this.sex;
+	}
+
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+
+	public int getProvince() {
+		return this.province;
+	}
+
+	public void setProvince(int province) {
+		this.province = province;
+	}
+
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPostcode() {
+		return this.postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getMobile() {
+		return this.mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getTel() {
+		return this.tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getIp() {
+		return this.ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getPostDate() {
+		return this.postDate;
+	}
+
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
+	}
+
+	public String getLastLoginDate() {
+		return this.lastLoginDate;
+	}
+
+	public void setLastLoginDate(String lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
+	public double getPoints() {
+		return this.points;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
+	}
+
+	public int getCity() {
+		return this.city;
+	}
+
+	public void setCity(int city) {
+		this.city = city;
+	}
+
+	public int getLoginTimes() {
+		return this.loginTimes;
+	}
+
+	public void setLoginTimes(int loginTimes) {
+		this.loginTimes = loginTimes;
+	}
+
+	public int getAder() {
+		return this.ader;
+	}
+
+	public void setAder(int ader) {
+		this.ader = ader;
+	}
+
+	public int getAderFlag() {
+		return this.aderFlag;
+	}
+
+	public void setAderFlag(int aderFlag) {
+		this.aderFlag = aderFlag;
+	}
+
+	public String getAderseason() {
+		return this.aderseason;
+	}
+
+	public void setAderseason(String aderseason) {
+		this.aderseason = aderseason;
+	}
+
+	public String getAderpayinfo() {
+		return this.aderpayinfo;
+	}
+
+	public void setAderpayinfo(String aderpayinfo) {
+		this.aderpayinfo = aderpayinfo;
+	}
+
+	public String getNickName() {
+		return this.nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public double getBuyCount() {
+		return this.buyCount;
+	}
+
+	public void setBuyCount(double buyCount) {
+		this.buyCount = buyCount;
+	}
+
+	public double getMmoney() {
+		return this.mmoney;
+	}
+
+	public void setMmoney(double mmoney) {
+		this.mmoney = mmoney;
+	}
+
+	public double getAderMoney() {
+		return this.aderMoney;
+	}
+
+	public void setAderMoney(double aderMoney) {
+		this.aderMoney = aderMoney;
+	}
+
+	public String getBirthday() {
+		return this.birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getQq() {
+		return this.qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	public String getMsn() {
+		return this.msn;
+	}
+
+	public void setMsn(String msn) {
+		this.msn = msn;
+	}
+
+	public int getIsValid() {
+		return this.isValid;
+	}
+
+	public void setIsValid(int isValid) {
+		this.isValid = isValid;
+	}
+
+	public String getMno() {
+		return this.mno;
+	}
+
+	public void setMno(String mno) {
+		this.mno = mno;
+	}
+
+	public int getCounty() {
+		return this.county;
+	}
+
+	public void setCounty(int county) {
+		this.county = county;
+	}
+
+	public String getMessageValid() {
+		return this.messageValid;
+	}
+
+	public void setMessageValid(String messageValid) {
+		this.messageValid = messageValid;
+	}
+
+	public int getRzFlag() {
+		return this.rzFlag;
+	}
+
+	public void setRzFlag(int rzFlag) {
+		this.rzFlag = rzFlag;
+	}
+
+	public int getMyshopFlag() {
+		return this.myshopFlag;
+	}
+
+	public void setMyshopFlag(int myshopFlag) {
+		this.myshopFlag = myshopFlag;
+	}
+
+	public String getImg() {
+		return this.img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public String getCarbj() {
+		return this.carbj;
+	}
+
+	public void setCarbj(String carbj) {
+		this.carbj = carbj;
+	}
+
+	public String getCarnum() {
+		return this.carnum;
+	}
+
+	public void setCarnum(String carnum) {
+		this.carnum = carnum;
+	}
+
+	public String getCartypefather() {
+		return this.cartypefather;
+	}
+
+	public void setCartypefather(String cartypefather) {
+		this.cartypefather = cartypefather;
+	}
+
+	public String getCartypeson() {
+		return this.cartypeson;
+	}
+
+	public void setCartypeson(String cartypeson) {
+		this.cartypeson = cartypeson;
+	}
+
+	public String getCartypedouter() {
+		return this.cartypedouter;
+	}
+
+	public void setCartypedouter(String cartypedouter) {
+		this.cartypedouter = cartypedouter;
+	}
+
+	public String getMycard() {
+		return this.mycard;
+	}
+
+	public void setMycard(String mycard) {
+		this.mycard = mycard;
+	}
+
+	public String getCardnum() {
+		return this.cardnum;
+	}
+
+	public void setCardnum(String cardnum) {
+		this.cardnum = cardnum;
+	}
+
+	public String getBhwt() {
+		return this.bhwt;
+	}
+
+	public void setBhwt(String bhwt) {
+		this.bhwt = bhwt;
+	}
+
+	public String getBhda() {
+		return this.bhda;
+	}
+
+	public void setBhda(String bhda) {
+		this.bhda = bhda;
+	}
+
+	public String getGslx() {
+		return this.gslx;
+	}
+
+	public void setGslx(String gslx) {
+		this.gslx = gslx;
+	}
+
+	public String getGsmc() {
+		return this.gsmc;
+	}
+
+	public void setGsmc(String gsmc) {
+		this.gsmc = gsmc;
+	}
+
+	public int getMeid() {
+		return this.meid;
+	}
+
+	public void setMeid(int meid) {
+		this.meid = meid;
+	}
+
+	public int getMType() {
+		return this.MType;
+	}
+
+	public void setMType(int MType) {
+		this.MType = MType;
+	}
+
+	public String getDepartment() {
+		return this.department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
+	public int getIsMevalid() {
+		return this.isMevalid;
+	}
+
+	public void setIsMevalid(int isMevalid) {
+		this.isMevalid = isMevalid;
+	}
+
+	public int getIsEmailvalid() {
+		return this.isEmailvalid;
+	}
+
+	public void setIsEmailvalid(int isEmailvalid) {
+		this.isEmailvalid = isEmailvalid;
+	}
+
+	public int getIsMobvalid() {
+		return this.isMobvalid;
+	}
+
+	public void setIsMobvalid(int isMobvalid) {
+		this.isMobvalid = isMobvalid;
+	}
+
+	public String getMenumber() {
+		return this.menumber;
+	}
+
+	public void setMenumber(String menumber) {
+		this.menumber = menumber;
+	}
+
+	public String getMailTimes() {
+		return this.mailTimes;
+	}
+
+	public void setMailTimes(String mailTimes) {
+		this.mailTimes = mailTimes;
+	}
+
+	public int getIsSendpoinds() {
+		return this.isSendpoinds;
+	}
+
+	public void setIsSendpoinds(int isSendpoinds) {
+		this.isSendpoinds = isSendpoinds;
+	}
+
+	public String getPv() {
+		return this.pv;
+	}
+
+	public void setPv(String pv) {
+		this.pv = pv;
+	}
+
+	public String getMobile1() {
+		return this.mobile1;
+	}
+
+	public void setMobile1(String mobile1) {
+		this.mobile1 = mobile1;
+	}
+
+	public String getPasswordmailTimes() {
+		return this.passwordmailTimes;
+	}
+
+	public void setPasswordmailTimes(String passwordmailTimes) {
+		this.passwordmailTimes = passwordmailTimes;
+	}
+
+	public String getEmail1() {
+		return this.email1;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public int getDrawlotteryTime() {
+		return this.drawlotteryTime;
+	}
+
+	public void setDrawlotteryTime(int drawlotteryTime) {
+		this.drawlotteryTime = drawlotteryTime;
+	}
+
+	public String getBackpassmsgTime() {
+		return this.backpassmsgTime;
+	}
+
+	public void setBackpassmsgTime(String backpassmsgTime) {
+		this.backpassmsgTime = backpassmsgTime;
+	}
+
+	public int getGiftparameter() {
+		return this.giftparameter;
+	}
+
+	public void setGiftparameter(int giftparameter) {
+		this.giftparameter = giftparameter;
+	}
+
+	public String getSource() {
+		return this.source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getEmailTemp() {
+		return this.emailTemp;
+	}
+
+	public void setEmailTemp(String emailTemp) {
+		this.emailTemp = emailTemp;
+	}
+
+	public String getFoldbackTime() {
+		return this.foldbackTime;
+	}
+
+	public void setFoldbackTime(String foldbackTime) {
+		this.foldbackTime = foldbackTime;
+	}
+
+	public int getIsBlacklist() {
+		return this.isBlacklist;
+	}
+
+	public void setIsBlacklist(int isBlacklist) {
+		this.isBlacklist = isBlacklist;
+	}
+
+	public String getBlackDescription() {
+		return this.blackDescription;
+	}
+
+	public void setBlackDescription(String blackDescription) {
+		this.blackDescription = blackDescription;
+	}
+
+	public int getIsMarriage() {
+		return this.isMarriage;
+	}
+
+	public void setIsMarriage(int isMarriage) {
+		this.isMarriage = isMarriage;
+	}
+
+	public int getPasswordStrength() {
+		return this.passwordStrength;
+	}
+
+	public void setPasswordStrength(int passwordStrength) {
+		this.passwordStrength = passwordStrength;
+	}
+
+	public int getAge() {
+		return this.age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+	public String getCProvince() {
+		return this.cProvince;
+	}
+
+	public void setCProvince(String cProvince) {
+		this.cProvince = cProvince;
+	}
+	
+	public String getCCity() {
+		return this.cCity;
+	}
+
+	public void setCCity(String cCity) {
+		this.cCity = cCity;
+	}
+	
+	public String getCCounty() {
+		return this.cCounty;
+	}
+
+	public void setCCounty(String cCounty) {
+		this.cCounty = cCounty;
+	}
+	
+	public String getCAddress() {
+		return this.cAddress;
+	}
+
+	public void setCAddress(String cAddress) {
+		this.cAddress = cAddress;
+	}
+
+}

@@ -1,0 +1,74 @@
+package com.sgfm.datacenter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 用于常量定义类
+ * 
+ * @author 
+ * @date 
+ */
+
+@SuppressWarnings("serial")
+public class SysConstant { 
+    // //////通用的常量//////////////////////////////////////////////
+
+    /** 系统保留字符 */
+	
+	/**
+	 * 保存tmember登入成功信息
+	 */
+    public static final String SYS_MEMBER_LOG_SUCC_INFO = "memberLogSuccInfo_mrevpt";
+    /**
+    * 保存account信息
+    */
+    public static final String SYS_ACCOUNT_LOG_SUCC_INFO = "account_log_succ_info_mrevpt";
+    /**
+     * 保存进入商品详情页地址
+     */
+    public static final String SYS_PRODUCT_DETAILS_URL = "product_details_url_mrevpt";
+    
+    public static final String CART_REFERER_URL = "refererUrl";
+    /*
+     * 保存城市id
+     */
+    public static final String SYS_CITYID = "localCityId_mrevpt";
+    public static final String SYS_CITYNAME = "cityname_mrevpt";
+    public static final String SYS_CITYAREANO = "cityareano_mrevpt";
+    
+    /**
+     * Cookie生命周期
+     */
+    public static final int COOKIE_LIFRCYCLE_DELETE = 0; //立即删除
+    public static final int COOKIE_LIFRCYCLE_NOWADAY = -1; //无生命周期
+    public static final int COOKIE_LIFRCYCLE_AWEEK = 60 * 60 * 24 * 7; //一周
+    public static final int COOKIE_LIFRCYCLE_AMONTH = 60 * 60 * 24 * 30; //30天
+    
+    /**
+     * 短信发送限制条数
+     */
+    public static final int MSG_CHECKCOUNT = 500; //当天限制短信条数
+    
+    public static final int MSG_SINGLE_CHECKCOUNT = 50; //当天单个用户短信限制条数
+    
+    /**
+     * 商家ID
+     */
+    public static final String MERCHANT_ID = "merchant_id"; 
+    
+	public static final String SERVER_URL = "https://eco.taobao.com/router/rest";
+	
+	public static final String APP_KEY = "23655325";
+	
+	public static final String APP_SECRET = "21f92831c2e29964b389fff50f5e7a8f";
+	
+	public static final String WX_APP_ID = "wx44a26b8a7ef26809";
+	
+	public static final String WX_APP_SECRET = "ce5575b427a386ce491e2549a515c4b0";
+	
+	/**
+	 * 用户openid
+	 */
+	public static final String USER_OPENID = "user_openid";
+}

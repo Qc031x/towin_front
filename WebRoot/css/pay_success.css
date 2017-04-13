@@ -1,0 +1,47 @@
+@charset "utf-8";
+.pay_success {
+	clear: both;
+	padding: 1rem;
+	overflow: hidden;
+	margin: 2%;
+	background: #fff;
+	border-radius: 3px;
+	margin-top: 2rem;
+}
+
+.pay_success .success_tips {
+	padding: 0 0 0.625rem 9rem;
+	color: #716f6f;
+	clear: both;
+	overflow: hidden;
+	line-height: 2.5rem;
+	font-size: 1.8rem;
+	background: url(../img/paysuccbg.png) 6.8rem 0.4rem no-repeat;
+	background-size: 1.8rem auto;
+	border-bottom: 1px #ddd solid;
+}
+
+.pay_success p {
+	clear: both;
+	overflow: hidden;
+	line-height: 2.3rem;
+	font-size: 1.5rem;
+	color: #999;
+}
+
+.pay_success span {
+	color: #716f6f;
+}
+
+.pay_success .jiaqian {
+	color: #ff6411;
+	font-family: arial;
+}
+
+.btn {
+	width: 100%;
+	max-width: 640px;
+	background: #ff6411;
+	color: #fff;
+	margin-top: 1rem;
+}

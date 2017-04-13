@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="TwechatMap">
+	<select id="findBrandchList" resultClass="java.util.HashMap" parameterClass="java.util.HashMap"> 
+	select te.csid,te.esid,te.name,te.checkup_time,te.tel,ta1.title as province , ta2.title as city, ta3.title as area,te.address 
+    from T_HOSPITAL_ENTITY te
+    join T_AREA ta1 on ta1.id=te.province
+    join T_AREA ta2 on ta2.id=te.city
+    join T_AREA ta3 on ta3.id=te.area
+    where te.esid in (
+    select DISTINCT(esid)   
+    from  T_BATCH_ROLE  
+    where batch_id=#batchId#
+    and role_id = (SELECT ROLE_ID from T_COMPANY_EMPLOYEE  where employee_id = #employeeId#)
+    and city= (select city  from  T_BATCH_EMPLOYEE  where EMPLOYEE_ID=#employeeId# and   batch_id=#batchId#)
+    and p_sex = (select (case when tce.sex=1 and tce.marriage =0 then 4 when tce.sex=1 and tce.marriage=1 then 2 else 1 end) as sexs
+    from t_company_employee tce where tce.employee_id = #employeeId# and   batch_id=#batchId#)
+   )or te.esid in(
+	select DISTINCT(esid)   
+    from  T_DIY_BATCH_ROLE  
+    where batch_id=#batchId#
+    and role_id = (SELECT ROLE_ID from T_COMPANY_EMPLOYEE  where employee_id = #employeeId#)
+    and city= (select city  from  T_BATCH_EMPLOYEE  where EMPLOYEE_ID=#employeeId# and   batch_id=#batchId#)
+    and p_sex = (select (case when tce.sex=1 and tce.marriage =0 then 4 when tce.sex=1 and tce.marriage=1 then 2 else 1 end) as sexs
+    from t_company_employee tce where tce.employee_id = #employeeId# and   batch_id=#batchId#)
+	
+	)
+	</select>
+	
+	<select id="getbrandchInfoByEsid" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		SELECT * FROM T_HOSPITAL_ENTITY WHERE esid=#esid#
+	</select>
+
+	<select id="findBrandchImgByEsid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT tep.*,(select csid from T_HOSPITAL_ENTITY where esid=#esid#) as csid 
+		from T_ENTITY_PICTURE tep
+		where tep.esid=#esid#
+	</select>
+	
+	<select id="checkBatchStatus" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		SELECT status FROM t_batch WHERE batch_id = #batchId#
+	</select>
+	
+	<!--根据批次ID  分院ID 和员工ID 查询固定套餐id-->
+	<select id="getProductId" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">	
+	   SELECT pid FROM t_batch_role WHERE batch_id=#batchId# and esid=#esid# 
+	   AND role_id = (SELECT role_id FROM t_company_employee  WHERE employee_id = #employeeId#) 
+	   AND p_sex = (SELECT (CASE WHEN tce.sex=1 AND tce.marriage =0 THEN 4 WHEN tce.sex=1 AND tce.marriage=1 THEN 2 ELSE 1 END) AS sexs
+	   FROM t_company_employee tce WHERE tce.employee_id = #employeeId#)
+	   UNION
+	   SELECT pid FROM t_batch_role WHERE batch_id=#batchId# and esid=#esid# 
+	   AND role_id = (SELECT role_id FROM t_company_employee  WHERE employee_id = #employeeId#) 
+	   AND p_sex = (SELECT (CASE WHEN tce.sex=1 AND tce.marriage =0 THEN 4 WHEN tce.sex=1 AND tce.marriage=1 THEN 2 ELSE 1 END) AS sexs
+	   FROM t_company_employee tce WHERE tce.employee_id = #employeeId#)
+	</select>
+	<!--根据批次ID  分院ID 和员工ID 查询diy套餐id-->
+	<select id="getDiyProductId" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		SELECT pid from T_DIY_BATCH_ROLE where BATCH_ID=#batchId# and esid=#esid# and role_id = (SELECT ROLE_ID from T_COMPANY_EMPLOYEE where employee_id=#employeeId#)	
+		AND p_sex = (SELECT (CASE WHEN tce.sex=1 AND tce.marriage =0 THEN 4 WHEN tce.sex=1 AND tce.marriage=1 THEN 2 ELSE 1 END) AS sexs
+	   	FROM t_company_employee tce WHERE tce.employee_id = #employeeId#)	
+	</select>
+	<select id="getSetmealInfoByPid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT * from T_SETMEALINFO where id in 
+			(SELECT MEALID from T_PRODUCT_SETMEAL WHERE pid=#productId#)
+	</select>
+	<select id="getDiySetmealInfoByPid" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT * from T_SETMEALINFO where id in 
+		(SELECT SINGLE_ID from T_STATIC_SINGLE where CUSTOM_ID=#diyProductId#)
+	</select>
+	<!--根据diyProductId查找自定义套餐加项包  -->
+	<select id="getDiyProductPackages"  resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT PI.*,PSI.SINGLE_ID,SML.CONTEXT,SML.MODEL_NAME, SML.SEX, SML.PRICE SPRICE, SMT.TYPE_NAME FROM T_PACKAGE_INFO PI 
+	    LEFT JOIN T_PACKAGE_SINGLE_INFO PSI ON PI.PACKAGE_ID = PSI.PACKAGE_ID 
+	    LEFT JOIN T_SETMEALINFO SML ON PSI.SINGLE_ID = SML.ID
+	    LEFT JOIN T_SETMEALTYPE SMT ON SML.TYPE_ID = SMT.ID
+	    WHERE PI.CUSTOM_ID = #diyProductId#
+	</select>
+	
+	<select id="getProductDetail" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT * from T_PRODUCT where pid=#pid#
+	</select>
+	<select id="getDiyProductDetail" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT * from T_CUSTOM_PRODUCT where custom_id=#pid#
+	</select>
+	<select id="getBatchRoleByEmployee" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		SELECT * FROM T_BATCH_ROLE where BATCH_ID = #batchId# and esid = #esid# and pid=#pid# 
+		and role_id=(select role_id from T_COMPANY_EMPLOYEE where employee_id=#employeeId#)
+		union
+		SELECT * FROM T_DIY_BATCH_ROLE where BATCH_ID = #batchId# and esid = #esid# and pid=#pid# 
+		and role_id=(select role_id from T_COMPANY_EMPLOYEE where employee_id=#employeeId#)
+	</select>
+	<select id="getBatchInfoById" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+		SELECT START_TIME,END_TIME from T_BATCH where BATCH_ID = #batchId#
+	</select>
+	<insert id="createEmployeeOrder" parameterClass="java.util.HashMap">
+		insert into t_employee_order values(
+			#oid#,
+			to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),
+			#orderPay#,
+			0,
+			0,
+			'',
+			0,
+			'',
+			#employeeId#
+		)
+	</insert>
+	<insert id="createEmployeeYY" parameterClass="java.util.HashMap">
+		<selectKey resultClass="java.lang.Integer" keyProperty="yid">
+	    	SELECT SEQ_BATCH.NEXTVAL FROM dual
+	    </selectKey>
+		insert into T_RESERVATION values(
+			#yid#,
+			to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),
+			#batchId#,
+			#esid#,
+			#employeeId#,
+			#orderTime#,
+			#pid#,
+			#productType#,
+			#setmealIds#,
+			#productPrice#,
+			#myWallet#,
+			#orderStatus#,
+			#oid#
+		)
+	</insert>
+	<select id="findReservationListByEmployeeId" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		SELECT tr.*,th.name ,th.csid,te.img_url,teo.order_pay,teo.pay_status from T_RESERVATION tr
+			left join T_HOSPITAL_ENTITY th on th.esid=tr.esid
+			left join T_ENTITY_PICTURE te on te.esid=tr.esid and model_flag=0
+			LEFT join T_EMPLOYEE_ORDER teo on teo.oid=tr.oid
+			where tr.batch_id=#batchId# and tr.empoyee_id=#employeeId#
+			and order_status not in (2)
+	</select>
+	<select id="getReservationDetail" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		select tr.*,
+			tce.true_name,tce.idcard,tce.mobile,
+			th.name as ename,th.tel,ta1.title as province,ta2.title as city,ta3.title as area,th.address,th.DESCRIPTION,
+			ttc.name as company_name,
+			tp.name as product_name,tcp.name as diy_product_name,teo.pay_status
+		from T_RESERVATION tr
+		left join T_COMPANY_EMPLOYEE tce on tce.employee_id = tr.EMPOYEE_ID
+		left join T_HOSPITAL_ENTITY th on th.esid=tr.esid
+		left join T_TWSIGN_COMPANY ttc on ttc.company_id=tce.company_id
+		 left join T_PRODUCT tp on tp.pid=tr.pid
+		 left join T_CUSTOM_PRODUCT tcp on tcp.custom_id=tr.pid
+		 LEFT JOIN T_EMPLOYEE_ORDER teo on teo.oid=tr.oid
+		join T_AREA ta1 on ta1.id=th.province
+		join T_AREA ta2 on ta2.id=th.city
+		join T_AREA ta3 on ta3.id=th.area
+		where yid=#yid#
+	</select>
+	<update id="updateEmployeeYY" parameterClass="java.util.HashMap">
+		update T_EMPLOYEE_ORDER set pay_status=3 
+		where oid in (select oid from T_RESERVATION where batch_id=#batchId# and empoyee_id=#employeeId# and order_status not in(2))
+	</update>
+	<update id="updateEmployeeOrder" parameterClass="java.util.HashMap">
+		update T_RESERVATION set order_status=2 where  batch_id=#batchId# and empoyee_id=#employeeId# and order_status not in(2)
+	</update>
+	<update id="canelReservation" parameterClass="java.lang.String">
+		update T_RESERVATION set order_status=2 where  yid=#yid#
+	</update>
+	
+	<update id="canelOrderByOid" parameterClass="java.lang.String">
+		update T_EMPLOYEE_ORDER set pay_status=3 where  oid=(select oid from T_RESERVATION where yid=#yid#)
+	</update>
+	<select id="getSendCodeParam" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT concat(tce.true_name,DECODE(tce.sex, 0,'先生',1,'女士')) as name ,tce.mobile
+			from T_COMPANY_EMPLOYEE tce 
+			where employee_id=#employeeId#
+	</select>
+	<insert id="addMsgrecord" parameterClass="java.lang.String">
+		insert into t_user_msgrecord values(
+			SEQ_MSG.nextval,
+			2,
+			to_number(#id#),
+			(select to_number(company_id) from T_COMPANY_EMPLOYEE where employee_id=#id#),
+			(select to_number(batch_id) from T_COMPANY_EMPLOYEE where employee_id=#id#),
+			to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),
+			'',
+			(select mobile from T_COMPANY_EMPLOYEE where employee_id=#id#)
+		)
+	</insert>
+	
+	
+	<!-- 根据esid查找体检单项 总数-->
+	<select id="getSetMealInfoListCount" parameterClass="java.util.HashMap" resultClass="int">
+		SELECT count(1) from T_SETMEALINFO ts
+		join T_HOSPITAL_ENTITY th on th.csid=ts.csid
+			where ts.sex not in (
+			 (case when (select sex from T_COMPANY_EMPLOYEE where employee_id=#employeeId#) = 0 then 3 
+				when (select sex from T_COMPANY_EMPLOYEE where employee_id=#employeeId#) = 1 then 2 end
+				)  
+			 )
+			and th.esid=#esid#
+			and ts.price>0
+			and th.is_diy=1
+			<isNotEmpty prepend="AND" property="mealIds">
+				ts.id not in ($mealIds$)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="keyWord">
+				(	ts.model_name LIKE '%'||#keyWord#||'%'
+					or ts.context LIKE '%'||#keyWord#||'%'
+					)
+				order by ts.sort
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="price">
+				to_number(ts.price) <![CDATA[ < ]]> #price#
+				order by to_number(ts.price) desc
+			</isNotEmpty>
+	</select>
+	<!-- 根据esid查找体检单项 集合-->
+	<select id="getSetMealInfoList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		<include refid="BaseMap.oraPageSqlPrefix"/> 
+		SELECT ts.* from T_SETMEALINFO ts
+		join T_HOSPITAL_ENTITY th on th.csid=ts.csid
+			where ts.sex not in (
+			 (case when (select sex from T_COMPANY_EMPLOYEE where employee_id=#employeeId#) = 0 then 3 
+				when (select sex from T_COMPANY_EMPLOYEE where employee_id=#employeeId#) = 1 then 2 end
+				)  
+			 )
+			and th.esid=#esid#
+			and ts.price>0
+			and th.is_diy=1
+			<isNotEmpty prepend="AND" property="mealIds">
+				ts.id not in ($mealIds$)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="keyWord">
+				(	ts.model_name LIKE '%'||#keyWord#||'%'
+					or ts.context LIKE '%'||#keyWord#||'%'
+					)
+				order by ts.sort
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="price">
+				to_number(ts.price) <![CDATA[ < ]]> #price#
+				order by to_number(ts.price) desc
+			</isNotEmpty>
+		<include refid="BaseMap.oraPageSqlSuffix"/>
+	</select>
+	<insert id="addEmployeeSetMeal" parameterClass="java.util.HashMap">
+		insert into t_employee_setmeal values(
+			SEQ_BATCH.NEXTVAL,
+			to_number(#yid#),
+			to_number(#sid#),
+			#createTime#
+		)
+	</insert>
+	<select id="findSetMealListByYid" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		SELECT ts.* from t_employee_setmeal  tes
+		LEFT JOIN T_SETMEALINFO ts on ts.id=tes.sid
+		where tes.yid=#yid#
+	</select>
+	<select id="checkReservation" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT * FROM T_RESERVATION WHERE batch_id=#batchId# and empoyee_id=#employeeId# and order_status not in(2)
+	</select>
+</sqlMap>
+   
+

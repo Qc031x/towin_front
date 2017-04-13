@@ -1,0 +1,56 @@
+package com.sgfm.datacenter.dao;
+
+import java.util.HashMap;
+
+import org.springframework.stereotype.Repository;
+
+import com.sgfm.base.dao.BaseDao;
+import com.sgfm.datacenter.entity.TEmployeeOrder;
+
+@SuppressWarnings("unchecked")
+@Repository
+public class OrderDao extends BaseDao{
+
+	/**
+	 * 通过订单号获取订单信息
+	 * @param oid
+	 * @return
+	 * @author 康良玉
+	 */
+	public TEmployeeOrder findOrderByOid(String oid){
+		return (TEmployeeOrder)super.getSqlMapClientTemplate().queryForObject("OrderMap.findOrderByOid",oid);
+	}
+	
+	/**
+	 * 修改订单状态
+	 * @param temployeeOrder
+	 * @author 康良玉
+	 */
+	public void updateOrder(TEmployeeOrder temployeeOrder){
+		super.getSqlMapClientTemplate().update("OrderMap.updateOrder",temployeeOrder);
+	}
+	
+	/**
+	 * 通过oid获取支付成功页面显示的订单信息
+	 * @param oid
+	 * @return
+	 * @author 康良玉
+	 */
+	public HashMap<String,Object> findPaySuccessInfoByOid(String oid){
+		return (HashMap<String, Object>) super.getSqlMapClientTemplate().queryForObject("OrderMap.findPaySuccessInfoByOid",oid);
+	}
+	/**
+	 * 修改预约单状态
+	 * @param oid
+	 * @return
+	 * @author 秦光耀
+	 */
+	public void updateReservation(String oid) {
+		super.getSqlMapClientTemplate().update("OrderMap.updateReservation",oid);
+	}
+
+	public HashMap<String, Object> getReservationByOid(String oid) {
+		return (HashMap<String, Object>) super.getSqlMapClientTemplate().queryForObject("OrderMap.getReservationByOid",oid);
+	}
+	
+}

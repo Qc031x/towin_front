@@ -1,0 +1,8 @@
+
+request.url.no.intercept=/core/login.doMemberLogin.do;
+=======
+yk.payType=T
+dataCenter.spec.chars=\\|,<,>,\\',\\",\u25B2
+
+dataCenter.spec.new.chars=\uFF5C,\uFF1C,\uFF1E,\u2018,\u201C,*
+
